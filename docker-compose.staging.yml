@@ -1,0 +1,36 @@
+version: '3.5'
+
+networks:
+  traefik-public:
+    external: true
+  thenurse-staging:
+    external: false
+    driver: overlay
+
+services:
+  client:
+    command: nginx -g "daemon off;"
+    networks:
+      - traefik-public
+      - thenurse-staging
+
+  server:
+    networks:
+      - thenurse-staging
+    env_file:
+      - ./server/docker/staging.env
+    environment:
+      NODE_ENV: staging
+      DATABASE_URL: postgres://admin:5UPP3rSecr3tPAssword@postgres:5432/thenurse-staging
+      JWT_SECRET: 'sada23123234*&^#(*&^^^#(*_|_&#_|_KJH#JKHG#_|_*(&#_|_*&#_|_(*&#^(*&#^_|_(*&#^_|_LKJ;o98(*SLKDJHLSKJH<M>n;loi098df904987'
+    command: 'npm start'
+
+  postgres:
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 5UPP3rSecr3tPAssword
+      POSTGRES_DB: thenurse-staging
+    volumes:
+      - thenurse_db_staging:/var/lib/postgresql/data
+volumes:
+  thenurse_db_staging:

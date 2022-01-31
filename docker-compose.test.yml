@@ -1,0 +1,68 @@
+version: "3.5"
+
+networks:
+  thenurse-test:
+    external: true
+
+services:
+  e2e:
+    command: npm run test
+    # command: node server.js --hostname 0.0.0.0 --port="${SERVICE_PORT:-8080}"
+    build: 
+      context: ./e2e_tests
+    volumes:
+      # - ./e2e_tests:/e2e/app
+      - ./client:/data
+    depends_on: 
+      - client
+    environment:
+      CLIENT_URL: http://client:8080
+    networks:
+      - "thenurse-test"
+
+  client:
+    # command: node server.js --hostname 0.0.0.0 --port="${SERVICE_PORT:-8080}"
+    command: echo ${API_URL} && nginx -g "daemon off;"
+    build: 
+      context: ./client
+      target: production
+    ports:
+      - "8082:8080"
+    environment:
+      - API_URL=server:8081
+      - PORT=8080
+      - NGINX_PORT=8080
+    networks:
+      - "thenurse-test"
+
+
+  server:
+    command: "npm run start:test"
+
+    build: 
+      context: ./server
+      target: production
+    restart: "no"
+    env_file:
+      - ./server/docker/test.env
+    networks:
+      - "thenurse-test"
+    ports:
+      - "8001:8081"
+    environment:
+      DATABASE_URL: postgres://admin:5UPP3rSecr3tPAssword@postgres:5432/thenurse-test
+      JWT_SECRET: "sada*&^#(*&^^^#(*_|_&#_|_KJH#JKHG#_|_*(&#_|_*&#_|_(*&#^(*&#^_|_(*&#^_|_LKJ;o98(*SLKDJHLSKJH<M>n;loi098df904987"
+      NODE_ENV: test
+  
+  postgres:
+    ports:
+      - "54320:5432"
+    environment:
+      POSTGRES_DB: thenurse-test
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 5UPP3rSecr3tPAssword
+    networks:
+      - "thenurse-test"
+    volumes:
+      - /var/lib/postgresql/data
+

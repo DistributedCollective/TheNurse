@@ -1,0 +1,45 @@
+version: "3.5"
+
+networks: 
+  traefik-public:
+    external: true
+  thenurse-production:
+    external: false
+    driver: overlay
+  
+services:
+  client:
+    networks:
+      - traefik-public
+      - thenurse-production
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 10
+        window: 120s
+    command: nginx -g "daemon off;"
+
+  server:
+    networks:
+      - thenurse-production
+    env_file:
+      - ./server/docker/production.env
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgres://admin:5UPP3rSecr3tPAssword@postgres:5432/thenurse
+      JWT_SECRET: "sada23123234*&^#(*&^^^#(*_|_&#_|_KJH#JKHG#_|_*(&#_|_*&#_|_(*&#^(*&#^_|_(*&#^_|_LKJ;o98(*SLKDJHLSKJH<M>n;loi098df904987"
+
+    command: "npm start"
+
+  postgres:
+    networks:
+      - thenurse-production
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 5UPP3rSecr3tPAssword
+      POSTGRES_DB: thenurse
+    volumes:
+      - thenurse_db_production:/var/lib/postgresql/data
+volumes:
+  thenurse_db_production:
