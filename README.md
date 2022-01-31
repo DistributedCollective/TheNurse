@@ -1,5 +1,4 @@
-
-# The thenurse Stack
+# TheNurse Stack
 * [KNEx.js](http://knexjs.org/)
 * [NEST.js](https://nestjs.com/)
 * [NExT.js](https://nextjs.org/)
@@ -8,7 +7,9 @@
 * [GraphQL](https://graphql.org/)
 * [Docker](https://www.docker.com/)
 
+## About
 
+A full stack service to listen for the heartbeats of the services that need to be working.
 
 ## Getting started
 * Clone this repo and `cd` into it
