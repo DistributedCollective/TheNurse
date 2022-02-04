@@ -41,7 +41,17 @@ server $ node generate-typings.js
 
 
 ## Development workflow
+If not specified otherwise, all the steps below are issued from the `server/` folder
 
+
+### 1. Create a new migration
+Migrations are used for handling database schema (create/update/delete tables, columns. Even adding some seed data one-time can be done with migrations).
+Make sure you have the `DATABASE_URL` env variable configured to point to the postgres instance from docker
+
+```bash
+$knex --knexfile ./src/knexfile.js migrate:make add_heartbeats
+```
+### 2. Create a new nestjs module:
 
 ## Test
 
