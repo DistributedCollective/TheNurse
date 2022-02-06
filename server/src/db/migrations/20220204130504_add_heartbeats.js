@@ -20,6 +20,8 @@ exports.up = async function (knex) {
     await knex.schema.createTable('heartbeats', function (t) {
       t.uuid('heartbeat_id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
       t.string('heatbeat_code').notNullable();
+      t.string('ip').notNullable();
+      t.json('payload');
       t.timestamps(true, true);
 
       t.index('heatbeat_code');

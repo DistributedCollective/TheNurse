@@ -21,7 +21,7 @@ export class AppController {
     return 'Hello World!';
   }
 
-  @Get('/api/migrate')
+  @Get('/migrate')
   async migrateUp(): Promise<string> {
     return await this.appService.migrateUp('up', {});
   }

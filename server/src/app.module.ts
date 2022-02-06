@@ -12,6 +12,7 @@ import { UsersModule } from './users/users.module';
 
 import { InjectKnex, Knex } from 'nestjs-knex';
 import { HeartbeatsModule } from './heartbeats/heartbeats.module';
+import { HeartbeatTypesModule } from './heartbeat-types/heartbeat-types.module';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -52,6 +53,7 @@ const isProduction = process.env.NODE_ENV === 'production';
     UsersModule,
     AppService,
     HeartbeatsModule,
+    HeartbeatTypesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -18,6 +18,14 @@ export class UserLoginInput {
     password: string;
 }
 
+export class CreateHeartbeatTypeInput {
+    exampleField?: Nullable<number>;
+}
+
+export class UpdateHeartbeatTypeInput {
+    id: number;
+}
+
 export class UserAddInput {
     email: string;
     roles: UserRoles[];
@@ -31,9 +39,27 @@ export class UserSignupInput {
 export abstract class IMutation {
     abstract login(user?: Nullable<UserLoginInput>): Nullable<AuthPayload> | Promise<Nullable<AuthPayload>>;
 
+    abstract createHeartbeatType(createHeartbeatTypeInput: CreateHeartbeatTypeInput): HeartbeatType | Promise<HeartbeatType>;
+
+    abstract updateHeartbeatType(updateHeartbeatTypeInput: UpdateHeartbeatTypeInput): HeartbeatType | Promise<HeartbeatType>;
+
+    abstract removeHeartbeatType(id: number): Nullable<HeartbeatType> | Promise<Nullable<HeartbeatType>>;
+
     abstract signup(user?: Nullable<UserSignupInput>): Nullable<User> | Promise<Nullable<User>>;
 
     abstract addUser(user?: Nullable<UserAddInput>): Nullable<User> | Promise<Nullable<User>>;
+}
+
+export class HeartbeatType {
+    exampleField?: Nullable<number>;
+}
+
+export abstract class IQuery {
+    abstract heartbeatTypes(): Nullable<HeartbeatType>[] | Promise<Nullable<HeartbeatType>[]>;
+
+    abstract heartbeatType(id: number): Nullable<HeartbeatType> | Promise<Nullable<HeartbeatType>>;
+
+    abstract user(userId: string): Nullable<User> | Promise<Nullable<User>>;
 }
 
 export class User {
@@ -47,10 +73,6 @@ export class User {
 export class AuthPayload {
     token?: Nullable<string>;
     user?: Nullable<User>;
-}
-
-export abstract class IQuery {
-    abstract user(userId: string): Nullable<User> | Promise<Nullable<User>>;
 }
 
 type Nullable<T> = T | null;

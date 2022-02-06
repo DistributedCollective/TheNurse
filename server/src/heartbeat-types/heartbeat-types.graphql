@@ -1,0 +1,24 @@
+type HeartbeatType {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input CreateHeartbeatTypeInput {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input UpdateHeartbeatTypeInput {
+  id: Int!
+}
+
+type Query {
+  heartbeatTypes: [HeartbeatType]!
+  heartbeatType(id: Int!): HeartbeatType
+}
+
+type Mutation {
+  createHeartbeatType(createHeartbeatTypeInput: CreateHeartbeatTypeInput!): HeartbeatType!
+  updateHeartbeatType(updateHeartbeatTypeInput: UpdateHeartbeatTypeInput!): HeartbeatType!
+  removeHeartbeatType(id: Int!): HeartbeatType
+}
