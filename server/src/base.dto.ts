@@ -2,12 +2,12 @@ import { IsNotEmpty, IsDateString } from 'class-validator';
 import { _ } from 'lodash';
 
 export class BaseDTO {
-  @IsNotEmpty()
-  @IsDateString()
+  // @IsNotEmpty()
+  // @IsDateString()
   createdAt?: string;
 
-  @IsNotEmpty()
-  @IsDateString()
+  // @IsNotEmpty()
+  // @IsDateString()
   updatedAt?: string;
 
   constructor(props) {

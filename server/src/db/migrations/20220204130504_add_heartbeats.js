@@ -19,14 +19,14 @@ exports.up = async function (knex) {
 
     await knex.schema.createTable('heartbeats', function (t) {
       t.uuid('heartbeat_id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
-      t.string('heatbeat_code').notNullable();
+      t.string('heartbeat_code').notNullable();
       t.string('ip').notNullable();
       t.json('payload');
       t.timestamps(true, true);
 
-      t.index('heatbeat_code');
+      t.index('heartbeat_code');
       t.index('created_at');
-      t.foreign('heatbeat_code').references('code').inTable('heartbeat_types').onUpdate('CASCADE').onDelete('CASCADE');
+      t.foreign('heartbeat_code').references('code').inTable('heartbeat_types').onUpdate('CASCADE').onDelete('CASCADE');
     })
       .then(() => knex.raw(onUpdateTrigger('heartbeats')));
   } catch (e) {

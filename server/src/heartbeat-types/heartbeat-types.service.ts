@@ -8,11 +8,15 @@ export class HeartbeatTypesService {
   private readonly logger = new Logger(HeartbeatTypesService.name);
   @InjectKnex() private readonly knex: Knex;
 
-
-  async findOrCreateByCode(heartBeatCode: string){
-    let result = await this.knex('hearbeat_types').upsert({
-      code: heartBeatCode,
-    });
+  async findOrCreateByCode(heartBeatCode: string) {
+    let result = await this.knex('heartbeat_types')
+      .insert({
+        code: heartBeatCode,
+        name: heartBeatCode,
+      })
+      .onConflict('code')
+      .merge()
+      .returning('*');
     return result;
   }
 

@@ -2,13 +2,11 @@ import { IsNotEmpty } from 'class-validator';
 import { BaseDTO } from '../../base.dto';
 
 export class CreateHeartbeatDto extends BaseDTO{
-  heartbeatId: string;
+  heartbeatId?: string;
 
   @IsNotEmpty()
   heartbeatCode: string;
 
-  @IsNotEmpty()
-  ip: string;
-
+  ip?: string;
   payload?: object;
 }
