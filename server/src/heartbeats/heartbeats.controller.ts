@@ -16,8 +16,8 @@ export class HeartbeatsController {
   }
 
   @Get()
-  findAll() {
-    return this.heartbeatsService.findAll();
+  async findAll(@Param('first') first: number, @Param('skip') skip: number) {
+    return await this.heartbeatsService.findAll(first, skip);
   }
   
   @Get(':id')
