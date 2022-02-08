@@ -19,6 +19,12 @@ export class HeartbeatsController {
   async findAll(@Param('first') first: number, @Param('skip') skip: number) {
     return await this.heartbeatsService.findAll(first, skip);
   }
+
+  @Get('/dead-services')
+  async deadServices() {
+    let res = await this.heartbeatsService.deadServices();
+    return res;
+  }
   
   @Get(':id')
   findOne(@Param('id') id: string) {
@@ -35,9 +41,4 @@ export class HeartbeatsController {
     return this.heartbeatsService.remove(+id);
   }
   
-  @Get('/ekg')
-  async ekg() {
-    let res = await this.heartbeatsService.ekg();
-    return res;
-  }
 }

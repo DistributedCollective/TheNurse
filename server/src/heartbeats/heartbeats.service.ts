@@ -50,7 +50,8 @@ export class HeartbeatsService {
     return `This action removes a #${id} heartbeat`;
   }
 
-  async ekg(){
-    return await this.knex.raw('select * from heartbeat_types where extract(epoch from now() - hbt.updated_at) > hbt.silence_error_time order by updated_at');
+  async deadServices(){
+    let res = await this.knex.raw('select hbt.*, NOW() as now, extract(epoch from now() - hbt.updated_at) as seconds_from_last_heartbit from heartbeat_types hbt where extract(epoch from now() - hbt.updated_at) > hbt.silence_error_time');
+    return res?.rows;
   }
 }
