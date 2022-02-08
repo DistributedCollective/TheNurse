@@ -30,8 +30,12 @@ export class HeartbeatsService {
     return heartbeat.heartbeatId;
   }
 
-  findAll() {
-    return `This action returns all heartbeats`;
+  async findAll(first: number = 100, skip: number = 0) {
+    return await this.knex('heartbeats')
+      .select('*')
+      .orderBy('created_at', 'desc')
+      .limit(first)
+      .offset(skip);
   }
 
   findOne(id: number) {
@@ -44,5 +48,9 @@ export class HeartbeatsService {
 
   remove(id: number) {
     return `This action removes a #${id} heartbeat`;
+  }
+
+  async ekg(){
+    return await this.knex.raw('select * from heartbeat_types where extract(epoch from now() - hbt.updated_at) > hbt.silence_error_time order by updated_at');
   }
 }

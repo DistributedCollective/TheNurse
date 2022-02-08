@@ -35,6 +35,8 @@ services:
   postgres:
     networks:
       - thenurse-production
+    ports: 
+      - "54329:5432"
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: 5UPP3rSecr3tPAssword
