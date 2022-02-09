@@ -13,6 +13,7 @@ import { UsersModule } from './users/users.module';
 import { InjectKnex, Knex } from 'nestjs-knex';
 import { HeartbeatsModule } from './heartbeats/heartbeats.module';
 import { HeartbeatTypesModule } from './heartbeat-types/heartbeat-types.module';
+import { NotifierService } from './notifier/notifier.service';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -51,12 +52,11 @@ const isProduction = process.env.NODE_ENV === 'production';
     // }),
     AuthModule,
     UsersModule,
-    AppService,
     HeartbeatsModule,
     HeartbeatTypesModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, NotifierService],
 })
 
 export class AppModule implements OnModuleDestroy {

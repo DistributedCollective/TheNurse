@@ -10,7 +10,6 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api', { exclude: ['graphql'] });
 
-
   app.enableShutdownHooks();
   await app.listen(process.env.PORT || 8081);
 }

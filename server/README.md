@@ -51,7 +51,45 @@ Make sure you have the `DATABASE_URL` env variable configured to point to the po
 ```bash
 $knex --knexfile ./src/knexfile.js migrate:make add_heartbeats
 ```
-### 2. Create a new nestjs module:
+### 2. Create a new nestjs resource:
+
+```bash
+$nest generate resource heartbeats
+```
+
+The output for GraphQL:
+```
+? What transport layer do you use? GraphQL (schema first)
+? Would you like to generate CRUD entry points? Yes
+CREATE src/heartbeats/heartbeats.graphql (482 bytes)
+CREATE src/heartbeats/heartbeats.module.ts (259 bytes)
+CREATE src/heartbeats/heartbeats.resolver.spec.ts (575 bytes)
+CREATE src/heartbeats/heartbeats.resolver.ts (1104 bytes)
+CREATE src/heartbeats/heartbeats.service.spec.ts (488 bytes)
+CREATE src/heartbeats/heartbeats.service.ts (695 bytes)
+CREATE src/heartbeats/dto/create-heartbeat.input.ts (37 bytes)
+CREATE src/heartbeats/dto/update-heartbeat.input.ts (212 bytes)
+CREATE src/heartbeats/entities/heartbeat.entity.ts (26 bytes)
+UPDATE package.json (2790 bytes)
+UPDATE src/app.module.ts (1839 bytes)
+```
+
+The output for REST:
+```
+? What transport layer do you use? REST API
+? Would you like to generate CRUD entry points? Yes
+CREATE src/heartbeats/heartbeats.controller.spec.ts (616 bytes)
+CREATE src/heartbeats/heartbeats.controller.ts (999 bytes)
+CREATE src/heartbeats/heartbeats.module.ts (282 bytes)
+CREATE src/heartbeats/heartbeats.service.spec.ts (488 bytes)
+CREATE src/heartbeats/heartbeats.service.ts (679 bytes)
+CREATE src/heartbeats/dto/create-heartbeat.dto.ts (35 bytes)
+CREATE src/heartbeats/dto/update-heartbeat.dto.ts (189 bytes)
+CREATE src/heartbeats/entities/heartbeat.entity.ts (26 bytes)
+UPDATE package.json (2790 bytes)
+UPDATE src/app.module.ts (1906 bytes)
+```
+
 
 ## Test
 
