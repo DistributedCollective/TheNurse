@@ -71,7 +71,7 @@ export class HeartbeatsService {
       shouldRestart: false,
       timeSinceLastHeartbeat: -1,
     }
-    let [lastHeartBeat] = await this.knex('heartbeats')
+    let lastHeartBeats = await this.knex('heartbeats')
       .innerJoin(
         'heartbeat_types',
         'heartbeats.heartbeat_code',
@@ -84,7 +84,8 @@ export class HeartbeatsService {
       })
       .orderBy('created_at', 'desc')
       .limit(1);
-    if (lastHeartBeat.length == 0) return false;
+    if (lastHeartBeats.length == 0) return res;
+    let lastHeartBeat = lastHeartBeats[0];
 
     res.timeSinceLastHeartbeat = ((new Date()).valueOf() - (new Date(lastHeartBeat.created_at)).valueOf())/1000;
 
