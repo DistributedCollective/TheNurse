@@ -27,6 +27,7 @@ export class HeartbeatsService {
         heartbeat_code: createHeartbeatDto.heartbeatCode,
         ip: createHeartbeatDto.ip,
         payload: createHeartbeatDto.payload || {},
+        runner_uuid: createHeartbeatDto.runnerUuid,
       })
       .returning('*');
 
@@ -53,11 +54,43 @@ export class HeartbeatsService {
     return `This action removes a #${id} heartbeat`;
   }
 
-  async deadServices(){
-    let res = await this.knex.raw('select hbt.*, NOW() as now, extract(epoch from now() - hbt.updated_at) as seconds_from_last_heartbit from heartbeat_types hbt where extract(epoch from now() - hbt.updated_at) > hbt.silence_error_time');
-    for (const r of res?.rows){
-      await this.notifier.sendTelegramMessage(`Didn't get the ${r.code} notification for ${r.seconds_from_last_heartbit} seconds (the last received one was at ${r.updated_at}) and we should've got it at least once every ${r.silence_error_time} seconds`);
+  async deadServices() {
+    let res = await this.knex.raw(
+      'select hbt.*, NOW() as now, extract(epoch from now() - hbt.updated_at) as seconds_from_last_heartbit from heartbeat_types hbt where extract(epoch from now() - hbt.updated_at) > hbt.silence_error_time'
+    );
+    for (const r of res?.rows) {
+      await this.notifier.sendTelegramMessage(
+        `Didn't get the ${r.code} notification for ${r.seconds_from_last_heartbit} seconds (the last received one was at ${r.updated_at}) and we should've got it at least once every ${r.silence_error_time} seconds`
+      );
     }
     return res?.rows;
+  }
+
+  async shouldRestart(runId, code): Promise<any> {
+    let res = {
+      shouldRestart: false,
+      timeSinceLastHeartbeat: -1,
+    }
+    let [lastHeartBeat] = await this.knex('heartbeats')
+      .innerJoin(
+        'heartbeat_types',
+        'heartbeats.heartbeat_code',
+        'heartbeat_types.code'
+      )
+      .select('heartbeats.created_at', 'heartbeat_types.silence_error_time')
+      .where({
+        runner_uuid: runId,
+        heartbeat_code: code,
+      })
+      .orderBy('created_at', 'desc')
+      .limit(1);
+    if (lastHeartBeat.length == 0) return false;
+
+    res.timeSinceLastHeartbeat = ((new Date()).valueOf() - (new Date(lastHeartBeat.created_at)).valueOf())/1000;
+
+    //
+    res.shouldRestart = !(res.timeSinceLastHeartbeat < lastHeartBeat.silence_error_time);
+
+    return res;
   }
 }

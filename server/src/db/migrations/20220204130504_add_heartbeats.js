@@ -22,10 +22,12 @@ exports.up = async function (knex) {
       t.string('heartbeat_code').notNullable();
       t.string('ip').notNullable();
       t.json('payload');
+      t.uuid('runner_uuid');
       t.timestamps(true, true);
 
       t.index('heartbeat_code');
       t.index('created_at');
+      t.index('runner_uuid');
       t.foreign('heartbeat_code').references('code').inTable('heartbeat_types').onUpdate('CASCADE').onDelete('CASCADE');
     })
       .then(() => knex.raw(onUpdateTrigger('heartbeats')));

@@ -3,7 +3,6 @@ import { LocalAuthGuard } from './auth/local-auth.guard';
 import { AuthService } from './auth/auth.service';
 import { AppService } from './app.service';
 
-@Dependencies(AppService)
 @Controller()
 export class AppController {
   constructor(

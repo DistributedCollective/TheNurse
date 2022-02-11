@@ -9,4 +9,5 @@ export class CreateHeartbeatDto extends BaseDTO{
 
   ip?: string;
   payload?: object;
+  runnerUuid: string;
 }

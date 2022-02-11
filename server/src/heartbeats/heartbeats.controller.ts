@@ -26,6 +26,12 @@ export class HeartbeatsController {
     return res;
   }
   
+  @Get('/should-restart/:runId/:code')
+  async shouldRestart(@Param('runId') runId: string, @Param('code') code: string) {
+    let res = await this.heartbeatsService.shouldRestart(runId, code);
+    return res;
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.heartbeatsService.findOne(+id);
