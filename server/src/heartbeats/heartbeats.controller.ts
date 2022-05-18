@@ -22,13 +22,13 @@ export class HeartbeatsController {
 
   @Get('/dead-services')
   async deadServices() {
-    let res = await this.heartbeatsService.deadServices();
+    const res = await this.heartbeatsService.deadServices();
     return res;
   }
   
   @Get('/should-restart/:runId/:code')
   async shouldRestart(@Param('runId') runId: string, @Param('code') code: string) {
-    let res = await this.heartbeatsService.shouldRestart(runId, code);
+    const res = await this.heartbeatsService.shouldRestart(runId, code);
     return res;
   }
 

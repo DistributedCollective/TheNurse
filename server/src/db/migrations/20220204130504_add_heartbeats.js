@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { onUpdateTrigger } = require('../../knexfile');
 /**
  * @param { import("knex").Knex } knex
@@ -32,7 +33,7 @@ exports.up = async function (knex) {
     })
       .then(() => knex.raw(onUpdateTrigger('heartbeats')));
   } catch (e) {
-    console.error('Error setting up migrations', e.message, e.stack, e);
+    // console.error('Error setting up migrations', e.message, e.stack, e);
     throw (e);
   }
 

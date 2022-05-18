@@ -18,8 +18,8 @@ module.exports = {
         "node": true
     },
     "extends": [
-        "plugin:@typescript-eslint/recommended",
-        "plugin:@typescript-eslint/recommended-requiring-type-checking"
+        // "plugin:@typescript-eslint/recommended",
+        // "plugin:@typescript-eslint/recommended-requiring-type-checking"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -168,12 +168,12 @@ module.exports = {
             "error",
             1
         ],
-        "max-len": [
-            "error",
-            {
-                "code": 150
-            }
-        ],
+        // "max-len": [
+        //     "error",
+        //     {
+        //         "code": 150
+        //     }
+        // ],
         "new-parens": "off",
         "newline-per-chained-call": "off",
         "no-bitwise": "error",
@@ -201,7 +201,7 @@ module.exports = {
             "error",
             "never"
         ],
-        "prefer-arrow/prefer-arrow-functions": "error",
+        // "prefer-arrow/prefer-arrow-functions": "error",
         "prefer-const": "error",
         "quote-props": "off",
         "radix": "error",
@@ -220,15 +220,15 @@ module.exports = {
             "off",
             "never"
         ],
-        "spaced-comment": [
-            "error",
-            "always",
-            {
-                "markers": [
-                    "/"
-                ]
-            }
-        ],
+        // "spaced-comment": [
+        //     "error",
+        //     "always",
+        //     {
+        //         "markers": [
+        //             "/"
+        //         ]
+        //     }
+        // ],
         "use-isnan": "error",
         "valid-typeof": "off"
     }
