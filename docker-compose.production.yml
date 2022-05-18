@@ -13,7 +13,7 @@ services:
       - traefik-public
       - thenurse-production
     labels:
-        - traefik.frontend.rule=Host:thenurse-staging.prforge.com
+        - traefik.frontend.rule=Host:thenurse.prforge.com
     deploy:
       restart_policy:
         condition: on-failure
