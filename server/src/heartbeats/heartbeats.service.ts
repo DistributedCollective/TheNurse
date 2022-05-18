@@ -24,7 +24,7 @@ export class HeartbeatsService {
                 createHeartbeatDto.heartbeatCode,
                 trx
             );
-            const [heartbeat] = await this.knex('heartbeats')
+            const [heartbeat] = await trx('heartbeats')
                 .insert({
                     heartbeat_code: createHeartbeatDto.heartbeatCode,
                     ip: createHeartbeatDto.ip,
