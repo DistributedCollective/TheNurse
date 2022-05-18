@@ -19,19 +19,24 @@ export class HeartbeatsService {
         this.notifier = notifier;
     }
     async create(createHeartbeatDto: CreateHeartbeatDto): Promise<string> {
-        const [heartBeatType] = await this.hbTypes.findOrCreateByCode(
-            createHeartbeatDto.heartbeatCode
-        );
-        const [heartbeat] = await this.knex('heartbeats')
-            .insert({
-                heartbeat_code: createHeartbeatDto.heartbeatCode,
-                ip: createHeartbeatDto.ip,
-                payload: createHeartbeatDto.payload || {},
-                runner_uuid: createHeartbeatDto.runnerUuid,
-            })
-            .returning('*');
+        const heartbeatId = await this.knex.transaction(async (trx) => {
+            const [heartBeatType] = await this.hbTypes.findOrCreateByCode(
+                createHeartbeatDto.heartbeatCode,
+                trx
+            );
+            const [heartbeat] = await this.knex('heartbeats')
+                .insert({
+                    heartbeat_code: createHeartbeatDto.heartbeatCode,
+                    ip: createHeartbeatDto.ip,
+                    payload: createHeartbeatDto.payload || {},
+                    runner_uuid: createHeartbeatDto.runnerUuid,
+                })
+                .returning('*');
 
-        return heartbeat.heartbeatId;
+            return heartbeat.heartbeatId;
+        });
+
+        return heartbeatId;
     }
 
     async findAll(first: number = 100, skip: number = 0) {
