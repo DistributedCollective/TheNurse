@@ -33,6 +33,7 @@ export class HeartbeatsService {
                 })
                 .returning('*');
 
+            await trx.commit();
             return heartbeat.heartbeatId;
         });
 
