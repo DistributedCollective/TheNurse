@@ -16,7 +16,7 @@ export class HeartbeatTypesService {
                 name: heartBeatCode,
             })
             .onConflict('code')
-            .merge()
+            .ignore()
             .returning('*');
         return result;
     }

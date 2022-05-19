@@ -73,8 +73,9 @@ export class HeartbeatsService {
     }
 
     async shouldRestart(runId, code): Promise<any> {
+        await this.cleanupOldHeartbeats();
         const res = {
-            shouldRestart: false,
+            shouldRestart: true,
             timeSinceLastHeartbeat: -1,
         };
         const lastHeartBeats = await this.knex('heartbeats')
@@ -93,7 +94,12 @@ export class HeartbeatsService {
             })
             .orderBy('created_at', 'desc')
             .limit(1);
-        if (lastHeartBeats.length === 0) return res;
+        if (lastHeartBeats.length === 0) {
+            await this.notifier.sendTelegramMessage(
+                `[THENURSE] Couldn't find the heartbeats type record for code ${code}.`
+            );
+            return res;
+        }
         const lastHeartBeat = lastHeartBeats[0];
 
         res.timeSinceLastHeartbeat =
@@ -107,5 +113,10 @@ export class HeartbeatsService {
         );
 
         return res;
+    }
+
+    async cleanupOldHeartbeats(): Promise<void>{
+      const since = new Date( Date.now() - 24 * 60 * 60 * 1000);
+      const res = await this.knex('heartbeats').where('created_at', '<', since.toISOString()).delete();
     }
 }
